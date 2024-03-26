@@ -1,0 +1,69 @@
+class Solution {
+private:
+    int swaps {0};
+public:
+    int minimumSwap(string s1, string s2) {
+        char* char_array1 = new char[s1.length() + 1]; 
+        char* char_array2 = new char[s2.length() + 1]; 
+        strcpy(char_array1, s1.c_str()); 
+        strcpy(char_array2, s2.c_str()); 
+
+        std::vector<int> s1Val = numberOfXAndY(char_array1, s1.length());
+        std::vector<int> s2Val = numberOfXAndY(char_array2, s2.length());
+
+        // Calculating an even number of all x and y values
+        if ((s1Val[0] + s2Val[0]) % 2 != 0 || (s1Val[1] + s2Val[1]) % 2 != 0){
+            return -1;
+        }
+
+        for(int x {0}; x < s1.length(); x++){
+            //cout << "Step: " << x << endl;
+            //printArray(char_array1);
+            //printArray(char_array2);
+            cout << endl;
+            if (char_array1[x] == char_array2[x]){ continue;}
+            else{
+                // look for one to swap with
+                for (int y {(int)s1.length()-1}; y >= 0; y--){
+                    
+                    if (char_array1[y] == char_array2[y]) {continue;}
+                    else{
+                        if (char_array1[x] == char_array2[y]){
+                            continue;
+                        }else{
+                            char temp = char_array1[x];
+                            char_array1[x] = char_array2[y];
+                            char_array2[y] = temp;
+                            swaps++;
+                            break;
+                        }
+
+                    }
+                }
+                
+            }
+        }
+        return swaps;
+    }
+
+    std::vector<int> numberOfXAndY(char* array, int length){
+        int xVal {0};
+        int yVal {0};
+
+        for (int x{0}; x < length; x++){
+            if (array[x] == 120) xVal++;
+            else yVal++;
+        }
+        std::vector<int> values = {xVal, yVal};
+        cout << "X: " << xVal << " Y: " << yVal << endl;
+        return values;
+    }
+
+    void printArray(char* array){
+        string s = array;
+        for (auto c : s){
+                  cout << c << " ";
+            }
+            cout << endl;
+    } 
+};
