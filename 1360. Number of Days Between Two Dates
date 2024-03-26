@@ -1,0 +1,34 @@
+class Solution {
+    private:
+    const int months [12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+public:
+    int daysBetweenDates(string date1, string date2) {
+        
+        int date1Days = dayCalc(date1);
+        int date2Days = dayCalc(date2);
+
+        return abs(date1Days-date2Days);
+    }
+
+    int dayCalc(string date){
+        int yearValue = 0;
+        int monthValue = 0;
+        int year = stoi(date.substr(0, 4));
+        int month = stoi(date.substr(5, 2));
+        int day  = stoi(date.substr(8, 2));
+        bool leapYear = year % 400 == 0 ? true : (year % 4 == 0 && year % 100 != 0) ? true : false;
+        int totalDaysInYears = 0;
+        for(int x {1970}; x < year; x++){
+            if((x % 100 != 0 && x % 4 == 0) || x % 400 == 0 ) totalDaysInYears += 366;  
+            else{totalDaysInYears += 365;}
+            } 
+
+        for (int x {0}; x < month-1; x++){
+            monthValue += months[x];
+            if(x == 1 && leapYear){
+                monthValue++;
+            }
+        }
+        return totalDaysInYears + monthValue + day;
+    }
+};
